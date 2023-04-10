@@ -1,19 +1,24 @@
+import { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import SearchForm from 'components/searchForm/SearchForm';
 import MoviesList from 'components/trandingList/MoviesList';
-import { useState, useEffect } from 'react';
 import { fetchMovies, normalizeMovies } from 'services';
 
 const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { name } = useMemo(
+    () => Object.fromEntries([...searchParams]),
+    [searchParams]
+  );
 
   useEffect(() => {
-    if (!searchQuery) return;
+    if (!name) return;
     const controller = new AbortController();
     const params = {
       controller,
       fetchParams: 'search/movie',
-      query: searchQuery,
+      query: name,
     };
 
     fetchMovies(params)
@@ -28,11 +33,11 @@ const Movies = () => {
     return () => {
       controller.abort();
     };
-  }, [searchQuery]);
+  }, [name]);
 
   return (
     <div>
-      <SearchForm getQuerySearch={setSearchQuery} />
+      <SearchForm setSearchParams={setSearchParams} />
       <MoviesList movies={movies} />
     </div>
   );

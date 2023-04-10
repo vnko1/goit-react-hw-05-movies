@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-const SearchForm = ({ getQuerySearch }) => {
+const SearchForm = ({ setSearchParams }) => {
   const [querySearch, setQuerySearch] = useState('');
 
   const onHandleSubmit = e => {
     e.preventDefault();
     if (!querySearch.trim()) return;
-    getQuerySearch(querySearch.trim().toLowerCase());
+    setSearchParams({ name: querySearch.trim().toLowerCase() });
     setQuerySearch('');
   };
 
