@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-
-import MoviesList from 'components/trandingList/MoviesList';
+import MoviesList from 'components/movieList/MoviesList';
 import { fetchMovies, normalizeMovies } from 'services';
 
 const Home = () => {
-  const [trandingMovies, setTrandingMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     const controller = new AbortController();
     const params = { fetchParams: 'trending/movie/week', controller };
     fetchMovies(params)
       .then(response => {
         const movies = normalizeMovies(response.results);
-        setTrandingMovies(movies);
+        setMovies(movies);
       })
       .catch(error => {})
       .finally(() => {});
@@ -20,7 +20,7 @@ const Home = () => {
       controller.abort();
     };
   }, []);
-  return <MoviesList movies={trandingMovies} />;
+  return <MoviesList movies={movies} />;
 };
 
 export default Home;

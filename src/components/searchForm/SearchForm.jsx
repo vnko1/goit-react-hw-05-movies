@@ -6,7 +6,7 @@ const SearchForm = ({ setSearchParams }) => {
   const onHandleSubmit = e => {
     e.preventDefault();
     if (!querySearch.trim()) return;
-    setSearchParams({ name: querySearch.trim().toLowerCase() });
+    setSearchParams({ query: querySearch.trim().toLowerCase() });
     setQuerySearch('');
   };
 
