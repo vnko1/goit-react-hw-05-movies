@@ -1,2 +1,7 @@
 export { fetchMovies } from './API';
-export { normalizeMovies } from './funcs';
+export {
+  normalizeMovies,
+  normalizeMovie,
+  normalizeCast,
+  normalizeReview,
+} from './funcs';

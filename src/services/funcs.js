@@ -28,4 +28,14 @@ export const normalizeMovie = ({
   };
 };
 
-// release_date,title, overview, id, genres, poster_path, popularity, backdrop_path
+export const normalizeCast = cast =>
+  cast.map(({ id, name, original_name, character, profile_path }) => ({
+    id,
+    name,
+    original_name,
+    character,
+    profile_path,
+  }));
+
+export const normalizeReview = reviews =>
+  reviews.map(({ author, content, id }) => ({ author, content, id }));

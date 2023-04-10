@@ -1,8 +1,7 @@
 import MovieInfo from 'components/movieInfo/MovieInfo';
 import { useEffect, useState } from 'react';
-import { useParams, Outlet } from 'react-router-dom';
-import { fetchMovies } from 'services';
-import { normalizeMovie } from 'services/funcs';
+import { useParams } from 'react-router-dom';
+import { fetchMovies, normalizeMovie } from 'services';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
