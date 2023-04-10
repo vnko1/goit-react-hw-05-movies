@@ -1,11 +1,13 @@
 import MovieInfo from 'components/movieInfo/MovieInfo';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { fetchMovies, normalizeMovie } from 'services';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const { moviesId } = useParams();
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
     const controller = new AbortController();
@@ -22,7 +24,12 @@ const MovieDetails = () => {
     };
   }, [moviesId]);
 
-  return <div>{movie && <MovieInfo movie={movie} />}</div>;
+  return (
+    <div>
+      <Link to={backLinkHref}>Go back</Link>
+      {movie && <MovieInfo movie={movie} />}
+    </div>
+  );
 };
 
 export default MovieDetails;
