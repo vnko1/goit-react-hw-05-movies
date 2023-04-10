@@ -22,15 +22,7 @@ const MovieDetails = () => {
     };
   }, [moviesId]);
 
-  return (
-    <div>
-      {movie && (
-        <>
-          <MovieInfo movie={movie} />
-        </>
-      )}
-    </div>
-  );
+  return <div>{movie && <MovieInfo movie={movie} />}</div>;
 };
 
 export default MovieDetails;
