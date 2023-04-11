@@ -1,16 +1,16 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import SearchForm from 'components/searchForm/SearchForm';
 import MoviesList from 'components/movieList/MoviesList';
+import Message from 'components/toast/Toast';
 import Loader from 'components/loader/Loader';
-import { fetchMovies, normalizeMovies, useFetch } from 'services';
+import { fetchMovies, normalizeMovies } from 'services';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
-  const [response, setResponse] = useState();
+  const [showLoader, setShowLoader] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { errorMessage, setErrorMessage, showLoader, setShowLoader } =
-    useFetch();
 
   const { query } = useMemo(
     () => Object.fromEntries([...searchParams]),
@@ -25,16 +25,16 @@ const Movies = () => {
       fetchParams: 'search/movie',
       query,
     };
-    setErrorMessage(null);
+
     setShowLoader(true);
     fetchMovies(params)
       .then(response => {
-        setResponse(response.results.length);
+        if (!response.results.length) toast.error('Nothing found!');
         const movies = normalizeMovies(response.results);
         setMovies(movies);
       })
       .catch(error => {
-        if (error.message !== 'canceled') setErrorMessage(error.message);
+        if (error.message !== 'canceled') toast.error(error.message);
       })
       .finally(() => {
         setShowLoader(false);
@@ -43,15 +43,14 @@ const Movies = () => {
     return () => {
       controller.abort();
     };
-  }, [query, setErrorMessage, setShowLoader]);
+  }, [query, setShowLoader]);
 
   return (
     <>
       <SearchForm setSearchParams={setSearchParams} />
       {showLoader && <Loader />}
       {!!movies.length && <MoviesList movies={movies} />}
-      {response === 0 && <p>Nothing found</p>}
-      {!!errorMessage && <p>{errorMessage}</p>}
+      <Message />
     </>
   );
 };

@@ -1,17 +1,19 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { MainContainer, Container, NavLink } from './MovieInfo.styled';
 
 const MovieInfo = ({ movie }) => {
   const { date, title, tagline, poster_path, popularity, genreList, overview } =
     movie;
   const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
   const currentLocation = { ...location };
   const name = currentLocation?.state?.from?.pathname;
   const search = currentLocation?.state?.from?.search;
 
   return (
-    <>
-      {' '}
-      <div>
+    <MainContainer>
+      <NavLink to={backLinkHref}>Go back</NavLink>
+      <Container>
         <img
           src={
             poster_path
@@ -31,24 +33,24 @@ const MovieInfo = ({ movie }) => {
           <h2>Genres</h2>
           <p>{!!genreList.length ? genreList : 'No genre information'}</p>
         </div>
-      </div>
+      </Container>
       <div>
         <h2>Additional information</h2>
         <ul>
           <li>
-            <Link to="cast" state={{ from: { pathname: name, search } }}>
+            <NavLink to="cast" state={{ from: { pathname: name, search } }}>
               Cast
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="reviews" state={{ from: { pathname: name, search } }}>
+            <NavLink to="reviews" state={{ from: { pathname: name, search } }}>
               Reviews
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <Outlet />
       </div>
-    </>
+    </MainContainer>
   );
 };
 

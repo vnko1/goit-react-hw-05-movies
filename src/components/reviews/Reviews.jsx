@@ -1,29 +1,29 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchMovies, normalizeReview, useFetch } from 'services';
+import toast from 'react-hot-toast';
+import Message from 'components/toast/Toast';
+import { fetchMovies, normalizeReview } from 'services';
 
 const Reviews = () => {
   const { moviesId } = useParams();
   const [reviews, setReviews] = useState([]);
-  const { errorMessage, setErrorMessage } = useFetch();
 
   useEffect(() => {
     const controller = new AbortController();
     const params = { fetchParams: `movie/${moviesId}/reviews`, controller };
-    setErrorMessage(null);
 
     fetchMovies(params)
       .then(response => {
         setReviews(normalizeReview(response.results));
       })
       .catch(error => {
-        if (error.message !== 'canceled') setErrorMessage(error.message);
+        if (error.message !== 'canceled') toast.error(error.message);
       });
 
     return () => {
       controller.abort();
     };
-  }, [moviesId, setErrorMessage]);
+  }, [moviesId]);
   return (
     <>
       {!!reviews.length && (
@@ -37,7 +37,7 @@ const Reviews = () => {
         </ul>
       )}
       {!reviews.length && <p>We don't have any reviews for this movie</p>}
-      {!!errorMessage && <p>{errorMessage}</p>}
+      <Message />
     </>
   );
 };

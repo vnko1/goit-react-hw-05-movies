@@ -1,13 +1,13 @@
 import { TailSpin } from 'react-loader-spinner';
-import { SpinerContainer } from './Loader.styled';
+import { SpinnerContainer } from './Loader.styled';
 
 const Loader = () => {
   return (
-    <SpinerContainer>
+    <SpinnerContainer>
       <TailSpin
         height="80"
         width="80"
-        color="#4fa94d"
+        color="teal"
         ariaLabel="tail-spin-loading"
         radius="1"
         wrapperStyle={{}}
@@ -15,7 +15,7 @@ const Loader = () => {
         visible={true}
         margin="0 auto"
       />
-    </SpinerContainer>
+    </SpinnerContainer>
   );
 };
 

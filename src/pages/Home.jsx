@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import MoviesList from 'components/movieList/MoviesList';
 import Loader from 'components/loader/Loader';
-import { fetchMovies, normalizeMovies, useFetch } from 'services';
+import Message from 'components/toast/Toast';
+import { fetchMovies, normalizeMovies } from 'services';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
-  const { errorMessage, setErrorMessage, showLoader, setShowLoader } =
-    useFetch();
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     const params = { fetchParams: 'trending/movie/week', controller };
-    setErrorMessage(null);
-    setShowLoader(true);
+
     fetchMovies(params)
       .then(response => {
         const movies = normalizeMovies(response.results);
         setMovies(movies);
       })
       .catch(error => {
-        if (error.message !== 'canceled') setErrorMessage(error.message);
+        if (error.message !== 'canceled') toast.error(error.message);
       })
       .finally(() => {
         setShowLoader(false);
@@ -27,13 +27,13 @@ const Home = () => {
     return () => {
       controller.abort();
     };
-  }, [setErrorMessage, setMovies, setShowLoader]);
+  }, [setMovies, setShowLoader]);
 
   return (
     <>
       {showLoader && <Loader />}
       {!!movies.length && <MoviesList movies={movies} />}
-      {!!errorMessage && <p>{errorMessage}</p>}
+      <Message />
     </>
   );
 };

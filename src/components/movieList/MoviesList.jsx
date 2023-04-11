@@ -1,4 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { NavLink, MovieItem } from './MovieList.styled';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();
@@ -6,11 +7,11 @@ const MoviesList = ({ movies }) => {
     <ul>
       {movies.map(({ title, id }) => {
         return (
-          <li key={id}>
-            <Link to={`/movies/${id}`} state={{ from: location }}>
+          <MovieItem key={id}>
+            <NavLink to={`/movies/${id}`} state={{ from: location }}>
               {title}
-            </Link>
-          </li>
+            </NavLink>
+          </MovieItem>
         );
       })}
     </ul>
