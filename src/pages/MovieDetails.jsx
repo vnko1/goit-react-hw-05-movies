@@ -7,7 +7,7 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const { moviesId } = useParams();
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     const controller = new AbortController();
