@@ -12,6 +12,7 @@ const Home = () => {
   useEffect(() => {
     const controller = new AbortController();
     const params = { fetchParams: 'trending/movie/week', controller };
+
     fetchMovies(params)
       .then(response => {
         const movies = normalizeMovies(response.results);
@@ -26,7 +27,7 @@ const Home = () => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [setMovies, setShowLoader]);
 
   return (
     <>
