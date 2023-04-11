@@ -15,7 +15,7 @@ export const Container = styled.div`
   gap: 30px;
 `;
 
-export const NavLink = styled(Link)`
+export const PageLink = styled(Link)`
   width: 100px;
   text-align: center;
   color: black;

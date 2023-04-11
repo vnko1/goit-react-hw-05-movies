@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import Message from 'components/toast/Toast';
 import useFetch from 'services/hooks';
+import { CastList, CastItem } from './Cast.styled';
 
 const Cast = () => {
   const { cast, fetchCast } = useFetch();
@@ -11,14 +12,17 @@ const Cast = () => {
   useEffect(() => {
     const controller = new AbortController();
     fetch({ fetchParams: `movie/${moviesId}/credits`, controller });
+    return () => {
+      controller.abort();
+    };
   }, [fetch, moviesId]);
 
   return (
     <>
       {!!cast.length && (
-        <ul>
+        <CastList>
           {cast.map(({ id, name, original_name, character, profile_path }) => (
-            <li key={id}>
+            <CastItem key={id}>
               <img
                 src={
                   profile_path
@@ -26,15 +30,14 @@ const Cast = () => {
                     : 'https://placehold.co/80x100/png'
                 }
                 alt={name}
-                width="80"
+                width="180"
               />
               <p>{original_name}</p>
               <p>Character: {character}</p>
-            </li>
+            </CastItem>
           ))}
-        </ul>
+        </CastList>
       )}
-      {!cast.length && <p>We don't have any cast for this movie</p>}
       <Message />
     </>
   );

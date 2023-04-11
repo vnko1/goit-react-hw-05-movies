@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { MainContainer, Container, NavLink } from './MovieInfo.styled';
+import { MainContainer, Container, PageLink } from './MovieInfo.styled';
 
 const MovieInfo = ({ movie }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
@@ -13,7 +13,7 @@ const MovieInfo = ({ movie }) => {
 
   return (
     <MainContainer>
-      <NavLink to={backLinkHref}>Go back</NavLink>
+      <PageLink to={backLinkHref}>Go back</PageLink>
       <Container>
         <img src={poster} alt={tagline} />
         <div>
@@ -32,14 +32,14 @@ const MovieInfo = ({ movie }) => {
         <h2>Additional information</h2>
         <ul>
           <li>
-            <NavLink to="cast" state={{ from: { pathname: name, search } }}>
+            <PageLink to="cast" state={{ from: { pathname: name, search } }}>
               Cast
-            </NavLink>
+            </PageLink>
           </li>
           <li>
-            <NavLink to="reviews" state={{ from: { pathname: name, search } }}>
+            <PageLink to="reviews" state={{ from: { pathname: name, search } }}>
               Reviews
-            </NavLink>
+            </PageLink>
           </li>
         </ul>
         <Outlet />

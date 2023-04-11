@@ -1,23 +1,34 @@
 import { useLocation } from 'react-router-dom';
-import ListGroup from 'react-bootstrap/ListGroup';
 import PropTypes, { shape } from 'prop-types';
-import { NavLink } from './MovieList.styled';
-
+import {
+  List,
+  Item,
+  ImageWrapper,
+  NavLink,
+  ProgressBarContainer,
+  Progressbar,
+} from './MovieList.styled';
 const MoviesList = ({ movies }) => {
   const location = useLocation();
 
   return (
-    <ListGroup style={{ paddingTop: '10px' }}>
-      {movies.map(({ title, id }) => {
+    <List>
+      {movies.map(({ title, id, poster, averageVote }) => {
         return (
-          <ListGroup.Item key={id}>
+          <Item key={id}>
             <NavLink to={`/movies/${id}`} state={{ from: location }}>
-              {title}
+              <ImageWrapper>
+                <img src={poster} alt={title} width="300px" />
+                <ProgressBarContainer>
+                  <Progressbar value={averageVote} text={`${averageVote}%`} />
+                </ProgressBarContainer>
+              </ImageWrapper>
+              <h2>{title}</h2>
             </NavLink>
-          </ListGroup.Item>
+          </Item>
         );
       })}
-    </ListGroup>
+    </List>
   );
 };
 
@@ -25,7 +36,9 @@ MoviesList.propTypes = {
   movies: PropTypes.arrayOf(
     shape({
       id: PropTypes.number.isRequired,
+      averageVote: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
+      poster: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
 };

@@ -34,7 +34,7 @@ export const Link = styled(NavLink)`
   padding: 30px 0;
   font-size: 16px;
   color: black;
-
+  cursor: pointer;
   &:hover,
   &:focus {
     color: tomato;

@@ -21,6 +21,7 @@ const useFetch = () => {
       .then(response => {
         if (!response.results.length) toast.error('Nothing found!');
         const movies = normalizeMovies(response.results);
+
         setMovies(movies);
       })
       .catch(error => {
@@ -49,6 +50,8 @@ const useFetch = () => {
     fetchMovies(params)
       .then(response => {
         setCast(normalizeCast(response.cast));
+        if (!response.cast.length)
+          toast.error("We don't have any cast for this movie");
       })
       .catch(error => {
         if (error.message !== 'canceled') toast.error(error.message);
@@ -59,6 +62,8 @@ const useFetch = () => {
     fetchMovies(params)
       .then(response => {
         setReviews(normalizeReview(response.results));
+        if (!response.results.length)
+          toast.error("We don't have any reviews for this movie");
       })
       .catch(error => {
         if (error.message !== 'canceled') toast.error(error.message);

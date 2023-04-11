@@ -1,5 +1,12 @@
 export const normalizeMovies = movies =>
-  movies.map(({ title, id }) => ({ title, id }));
+  movies.map(({ title, id, poster_path, vote_average }) => {
+    const poster = poster_path
+      ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+      : 'https://placehold.co/500x750/png';
+
+    const averageVote = vote_average && Math.round(vote_average * 10);
+    return { title, id, poster, averageVote };
+  });
 
 export const normalizeMovie = ({
   release_date,
