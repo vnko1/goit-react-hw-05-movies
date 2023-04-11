@@ -28,7 +28,7 @@ export const normalizeMovie = ({
     tagline,
     id,
     poster,
-    popularity,
+    popularity: popularity + '',
     backdrop_path,
     genre,
     overview,

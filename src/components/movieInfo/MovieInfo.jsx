@@ -1,8 +1,10 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { MainContainer, Container, NavLink } from './MovieInfo.styled';
 
 const MovieInfo = ({ movie }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
+
   const location = useLocation();
   const backLinkHref = location.state?.from ?? '/';
   const currentLocation = { ...location };
@@ -44,6 +46,18 @@ const MovieInfo = ({ movie }) => {
       </div>
     </MainContainer>
   );
+};
+
+MovieInfo.propTypes = {
+  movie: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    tagline: PropTypes.string.isRequired,
+    poster: PropTypes.string.isRequired,
+    popularity: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default MovieInfo;

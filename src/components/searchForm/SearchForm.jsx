@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { MovieSearchForm, Input, Button } from './SearchForm.styled';
 
 const SearchForm = ({ setSearchParams }) => {
@@ -31,5 +32,7 @@ const SearchForm = ({ setSearchParams }) => {
     </MovieSearchForm>
   );
 };
+
+SearchForm.propTypes = { setSearchParams: PropTypes.func.isRequired };
 
 export default SearchForm;
