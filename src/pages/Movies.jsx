@@ -2,11 +2,16 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SearchForm from 'components/searchForm/SearchForm';
 import MoviesList from 'components/movieList/MoviesList';
-import { fetchMovies, normalizeMovies } from 'services';
+import Loader from 'components/loader/Loader';
+import { fetchMovies, normalizeMovies, useFetch } from 'services';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [response, setResponse] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { errorMessage, setErrorMessage, showLoader, setShowLoader } =
+    useFetch();
+
   const { query } = useMemo(
     () => Object.fromEntries([...searchParams]),
     [searchParams]
@@ -20,25 +25,34 @@ const Movies = () => {
       fetchParams: 'search/movie',
       query,
     };
-
+    setErrorMessage(null);
+    setShowLoader(true);
     fetchMovies(params)
       .then(response => {
+        setResponse(response.results.length);
         const movies = normalizeMovies(response.results);
         setMovies(movies);
       })
-      .catch(error => {})
-      .finally(() => {});
+      .catch(error => {
+        if (error.message !== 'canceled') setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setShowLoader(false);
+      });
 
     return () => {
       controller.abort();
     };
-  }, [query]);
+  }, [query, setErrorMessage, setShowLoader]);
 
   return (
-    <div>
+    <>
       <SearchForm setSearchParams={setSearchParams} />
-      <MoviesList movies={movies} />
-    </div>
+      {showLoader && <Loader />}
+      {!!movies.length && <MoviesList movies={movies} />}
+      {response === 0 && <p>Nothing found</p>}
+      {!!errorMessage && <p>{errorMessage}</p>}
+    </>
   );
 };
 

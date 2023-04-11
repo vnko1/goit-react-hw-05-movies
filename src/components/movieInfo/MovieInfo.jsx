@@ -9,41 +9,46 @@ const MovieInfo = ({ movie }) => {
   const search = currentLocation?.state?.from?.search;
 
   return (
-    <div>
-      <img
-        src={
-          poster_path
-            ? `https://image.tmdb.org/t/p/w500/${poster_path}`
-            : 'https://placehold.co/500x750/png'
-        }
-        alt={tagline}
-      />
+    <>
+      {' '}
       <div>
+        <img
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+              : 'https://placehold.co/500x750/png'
+          }
+          alt={tagline}
+        />
         <div>
-          <h1>{title}</h1>
-          <p>{date ? `(${date})` : 'No release information'}</p>
+          <div>
+            <h1>{title}</h1>
+            <p>{date ? `(${date})` : 'No release information'}</p>
+          </div>
+          <p>Popularity: {popularity}</p>
+          <h2>Overview</h2>
+          <p>{overview}</p>
+          <h2>Genres</h2>
+          <p>{!!genreList.length ? genreList : 'No genre information'}</p>
         </div>
-        <p>Popularity: {popularity}</p>
-        <h2>Overview</h2>
-        <p>{overview}</p>
-        <h2>Genres</h2>
-        <p>{!!genreList.length ? genreList : 'No genre information'}</p>
       </div>
-      <h2>Additional information</h2>
-      <ul>
-        <li>
-          <Link to="cast" state={{ from: { pathname: name, search } }}>
-            Cast
-          </Link>
-        </li>
-        <li>
-          <Link to="reviews" state={{ from: { pathname: name, search } }}>
-            Reviews
-          </Link>
-        </li>
-      </ul>
-      <Outlet />
-    </div>
+      <div>
+        <h2>Additional information</h2>
+        <ul>
+          <li>
+            <Link to="cast" state={{ from: { pathname: name, search } }}>
+              Cast
+            </Link>
+          </li>
+          <li>
+            <Link to="reviews" state={{ from: { pathname: name, search } }}>
+              Reviews
+            </Link>
+          </li>
+        </ul>
+        <Outlet />
+      </div>
+    </>
   );
 };
 

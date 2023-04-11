@@ -8,6 +8,7 @@ import {
   NavList,
   Link,
 } from './SharedLayout.styled';
+import Loader from 'components/loader/Loader';
 
 const SharedLayout = () => {
   return (
@@ -28,7 +29,7 @@ const SharedLayout = () => {
       </Header>
       <Container>
         <main>
-          <Suspense fallback={<div>Loading ...</div>}>
+          <Suspense fallback={<Loader />}>
             <Outlet />
           </Suspense>
         </main>
