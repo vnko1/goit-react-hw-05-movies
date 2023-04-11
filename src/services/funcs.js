@@ -12,18 +12,25 @@ export const normalizeMovie = ({
   genres,
   overview,
 }) => {
-  const date = release_date.split('-');
+  const date = release_date
+    ? release_date.split('-')[0]
+    : 'No release information';
 
+  const poster = poster_path
+    ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+    : 'https://placehold.co/500x750/png';
   const genreList = genres.map(genre => genre.name).join(' ');
+  const genre = genreList.length ? genreList : 'No genre information';
+
   return {
-    date: date[0],
+    date,
     title,
     tagline,
     id,
-    poster_path,
+    poster,
     popularity,
     backdrop_path,
-    genreList,
+    genre,
     overview,
   };
 };
