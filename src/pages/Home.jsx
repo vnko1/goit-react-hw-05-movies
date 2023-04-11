@@ -1,33 +1,20 @@
-import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { useEffect, useRef } from 'react';
 import MoviesList from 'components/movieList/MoviesList';
 import Loader from 'components/loader/Loader';
 import Message from 'components/toast/Toast';
-import { fetchMovies, normalizeMovies } from 'services';
+import useFetch from 'services/hooks';
 
 const Home = () => {
-  const [movies, setMovies] = useState([]);
-  const [showLoader, setShowLoader] = useState(false);
+  const { movies, showLoader, fetchMoviesList } = useFetch();
+  const { current: fetch } = useRef(fetchMoviesList);
 
   useEffect(() => {
     const controller = new AbortController();
-    const params = { fetchParams: 'trending/movie/week', controller };
-
-    fetchMovies(params)
-      .then(response => {
-        const movies = normalizeMovies(response.results);
-        setMovies(movies);
-      })
-      .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
-      })
-      .finally(() => {
-        setShowLoader(false);
-      });
+    fetch({ fetchParams: 'trending/movie/week', controller });
     return () => {
       controller.abort();
     };
-  }, [setMovies, setShowLoader]);
+  }, [fetch]);
 
   return (
     <>

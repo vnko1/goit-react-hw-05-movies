@@ -1,35 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import MovieInfo from 'components/movieInfo/MovieInfo';
 import Message from 'components/toast/Toast';
 import Loader from 'components/loader/Loader';
-import { fetchMovies, normalizeMovie } from 'services';
+import useFetch from 'services/hooks';
 
 const MovieDetails = () => {
-  const [movie, setMovie] = useState(null);
-  const [showLoader, setShowLoader] = useState(false);
+  const { movie, fetchMovie, showLoader } = useFetch();
+  const { current: fetch } = useRef(fetchMovie);
   const { moviesId } = useParams();
 
   useEffect(() => {
     const controller = new AbortController();
-    const params = { fetchParams: `movie/${moviesId}`, controller };
-    setShowLoader(true);
-    fetchMovies(params)
-      .then(response => {
-        setMovie(normalizeMovie(response));
-      })
-      .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
-      })
-      .finally(() => {
-        setShowLoader(false);
-      });
-
+    fetch({ fetchParams: `movie/${moviesId}`, controller });
     return () => {
       controller.abort();
     };
-  }, [moviesId, setShowLoader]);
+  }, [fetch, moviesId]);
 
   return (
     <>

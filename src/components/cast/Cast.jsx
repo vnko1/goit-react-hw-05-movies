@@ -1,29 +1,17 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useEffect, useRef } from 'react';
 import Message from 'components/toast/Toast';
-import { fetchMovies, normalizeCast } from 'services';
+import useFetch from 'services/hooks';
 
 const Cast = () => {
+  const { cast, fetchCast } = useFetch();
   const { moviesId } = useParams();
-  const [cast, setCast] = useState([]);
+  const { current: fetch } = useRef(fetchCast);
 
   useEffect(() => {
     const controller = new AbortController();
-    const params = { fetchParams: `movie/${moviesId}/credits`, controller };
-
-    fetchMovies(params)
-      .then(response => {
-        setCast(normalizeCast(response.cast));
-      })
-      .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [moviesId]);
+    fetch({ fetchParams: `movie/${moviesId}/credits`, controller });
+  }, [fetch, moviesId]);
 
   return (
     <>
