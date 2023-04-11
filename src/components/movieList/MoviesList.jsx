@@ -1,8 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-import PropTypes from 'prop-types';
+import PropTypes, { shape } from 'prop-types';
 import { NavLink } from './MovieList.styled';
-import { shape } from 'prop-types';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();
