@@ -37,8 +37,8 @@ const Reviews = () => {
                 alt={author}
                 onLoad={onComplete}
                 onError={onComplete}
-                width="80px"
-                height="80px"
+                width="80"
+                height="80"
               />
               <h2>Author: {author}</h2>
               <p>{content}</p>

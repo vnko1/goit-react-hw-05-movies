@@ -33,8 +33,8 @@ const Cast = () => {
               <img
                 src={profile}
                 alt={name}
-                width="180px"
-                height="270px"
+                width="180"
+                height="270"
                 onLoad={onComplete}
                 onError={onComplete}
               />

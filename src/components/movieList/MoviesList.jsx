@@ -27,7 +27,8 @@ const MoviesList = ({ movies, setIsLoading }) => {
                 <img
                   src={poster}
                   alt={title}
-                  width="300px"
+                  width="300"
+                  height="450"
                   onLoad={onComplete}
                   onError={onComplete}
                 />
