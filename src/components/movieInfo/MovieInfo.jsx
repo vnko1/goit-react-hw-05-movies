@@ -12,6 +12,7 @@ import {
 
 const MovieInfo = ({ movie, setIsLoading }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
+
   const location = useLocation();
   const backLinkHref = useRef(location.state?.from ?? '/');
 
