@@ -14,6 +14,10 @@ export const Container = styled.div`
   display: flex;
   gap: 30px;
 `;
+export const LinkList = styled.ul`
+  display: flex;
+  gap: 20px;
+`;
 
 export const PageLink = styled(Link)`
   width: 100px;

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import Message from 'components/toast/Toast';
 import { after } from 'underscore';
+import NetflixLoader from 'components/loader/NetflixLoader';
 import useFetch from 'services/hooks';
 import { CastList, CastItem } from './Cast.styled';
 
@@ -24,16 +25,13 @@ const Cast = () => {
 
   return (
     <>
+      {isLoading && <NetflixLoader column={6} height={270} width={180} />}
       {!!cast.length && (
         <CastList className={!isLoading && 'loaded'}>
-          {cast.map(({ id, name, original_name, character, profile_path }) => (
+          {cast.map(({ id, name, original_name, character, profile }) => (
             <CastItem key={id}>
               <img
-                src={
-                  profile_path
-                    ? `https://image.tmdb.org/t/p/w500/${profile_path}`
-                    : 'https://placehold.co/80x100/png'
-                }
+                src={profile}
                 alt={name}
                 width="180"
                 onLoad={onComplete}

@@ -43,13 +43,27 @@ export const normalizeMovie = ({
 };
 
 export const normalizeCast = cast =>
-  cast.map(({ id, name, original_name, character, profile_path }) => ({
-    id,
-    name,
-    original_name,
-    character,
-    profile_path,
-  }));
+  cast.map(({ id, name, original_name, character, profile_path }) => {
+    const profile = profile_path
+      ? `https://image.tmdb.org/t/p/w500/${profile_path}`
+      : 'https://placehold.co/80x100/png';
+    return {
+      id,
+      name,
+      original_name,
+      character,
+      profile,
+    };
+  });
 
 export const normalizeReview = reviews =>
-  reviews.map(({ author, content, id }) => ({ author, content, id }));
+  reviews.map(({ author, author_details: { avatar_path }, content, id }) => {
+    let avatar = null;
+    if (avatar_path && !avatar_path?.includes('https')) {
+      avatar = `https://image.tmdb.org/t/p/w500/${avatar_path}`;
+    } else {
+      avatar = 'https://placehold.co/80x80/png';
+    }
+
+    return { author, content, id, avatar };
+  });

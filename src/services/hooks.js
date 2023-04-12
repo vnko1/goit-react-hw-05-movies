@@ -14,6 +14,7 @@ const useFetch = () => {
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [contentIsLoading, setContentIsLoading] = useState(false);
 
   const fetchMoviesList = params => {
     setIsLoading(true);
@@ -63,6 +64,7 @@ const useFetch = () => {
   };
 
   const fetcReviews = params => {
+    setContentIsLoading(true);
     fetchMovies(params)
       .then(response => {
         setReviews(normalizeReview(response.results));
@@ -85,6 +87,8 @@ const useFetch = () => {
     fetcReviews,
     isLoading,
     setIsLoading,
+    contentIsLoading,
+    setContentIsLoading,
   };
 };
 

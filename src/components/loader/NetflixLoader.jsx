@@ -1,10 +1,11 @@
 import ContentLoader from 'react-content-loader';
 
 const NetflixLoader = props => {
+  const { column = 4, height = 450, width = 300 } = props;
   const rows = 3;
-  const columns = 4;
-  const coverHeight = 450;
-  const coverWidth = 300;
+  const columns = column;
+  const coverHeight = height;
+  const coverWidth = width;
   const padding = 5;
   const speed = 1;
 
@@ -18,7 +19,7 @@ const NetflixLoader = props => {
       speed={speed}
       width={columns * coverWidthWithPadding}
       height={rows * coverHeightWithPadding}
-      {...props}
+      // {...props}
     >
       {covers.map((g, i) => {
         let vy = Math.floor(i / columns) * coverHeightWithPadding + initial;

@@ -4,6 +4,7 @@ import {
   MainContainer,
   Container,
   PageLink,
+  LinkList,
   InfoContainer,
 } from './MovieInfo.styled';
 
@@ -42,7 +43,7 @@ const MovieInfo = ({ movie, setIsLoading }) => {
       </Container>
       <InfoContainer>
         <h2>Additional information</h2>
-        <ul>
+        <LinkList>
           <li>
             <PageLink to="cast" state={{ from: { pathname: name, search } }}>
               Cast
@@ -53,7 +54,7 @@ const MovieInfo = ({ movie, setIsLoading }) => {
               Reviews
             </PageLink>
           </li>
-        </ul>
+        </LinkList>
         <Outlet />
       </InfoContainer>
     </MainContainer>
