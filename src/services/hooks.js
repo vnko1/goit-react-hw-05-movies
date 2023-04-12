@@ -55,8 +55,10 @@ const useFetch = () => {
     fetchMovies(params)
       .then(response => {
         setCast(normalizeCast(response.cast));
-        if (!response.cast.length)
+        if (!response.cast.length) {
           toast.error("We don't have any cast for this movie");
+          setIsLoading(false);
+        }
       })
       .catch(error => {
         if (error.message !== 'canceled') toast.error(error.message);
@@ -68,8 +70,10 @@ const useFetch = () => {
     fetchMovies(params)
       .then(response => {
         setReviews(normalizeReview(response.results));
-        if (!response.results.length)
+        if (!response.results.length) {
           toast.error("We don't have any reviews for this movie");
+          setContentIsLoading(false);
+        }
       })
       .catch(error => {
         if (error.message !== 'canceled') toast.error(error.message);

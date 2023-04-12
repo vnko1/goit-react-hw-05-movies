@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Loader from 'components/loader/Loader';
@@ -12,18 +12,14 @@ import {
 
 const MovieInfo = ({ movie, setIsLoading }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
-
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/';
-  const currentLocation = { ...location };
-  const name = currentLocation?.state?.from?.pathname;
-  const search = currentLocation?.state?.from?.search;
+  const backLinkHref = useRef(location.state?.from ?? '/');
 
   const onComplete = () => setIsLoading(false);
 
   return (
     <MainContainer>
-      <PageLink to={backLinkHref}>Go back</PageLink>
+      <PageLink to={backLinkHref.current}>Go back</PageLink>
       <Container>
         <img
           src={poster}
@@ -49,14 +45,10 @@ const MovieInfo = ({ movie, setIsLoading }) => {
         <h2>Additional information</h2>
         <LinkList>
           <li>
-            <PageLink to="cast" state={{ from: { pathname: name, search } }}>
-              Cast
-            </PageLink>
+            <PageLink to="cast">Cast</PageLink>
           </li>
           <li>
-            <PageLink to="reviews" state={{ from: { pathname: name, search } }}>
-              Reviews
-            </PageLink>
+            <PageLink to="reviews">Reviews</PageLink>
           </li>
         </LinkList>
         <Suspense fallback={<Loader />}>
