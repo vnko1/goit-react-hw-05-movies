@@ -33,7 +33,11 @@ const Movies = () => {
       <SearchForm setSearchParams={setSearchParams} />
       {isLoading && <NetflixLoader />}
       {!!movies.length && (
-        <MoviesList movies={movies} setIsLoading={setIsLoading} />
+        <MoviesList
+          movies={movies}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
+        />
       )}
       <Message />
     </>

@@ -22,7 +22,7 @@ const MovieDetails = () => {
   return (
     <>
       {isLoading && <ImageLoader />}
-      {movie && <MovieInfo movie={movie} setIsLoading={setIsLoading} />}
+      {movie && <MovieInfo movie={movie} setIsLoading={setIsLoading} isLoading={ isLoading} />}
       <Message />
     </>
   );

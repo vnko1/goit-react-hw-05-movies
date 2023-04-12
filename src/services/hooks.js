@@ -20,7 +20,7 @@ const useFetch = () => {
     setIsLoading(true);
     fetchMovies(params)
       .then(response => {
-        if (!response.results.length) {
+        if (response.results.length === 0) {
           setIsLoading(false);
           toast.error('Nothing found!');
         }
@@ -55,13 +55,16 @@ const useFetch = () => {
     fetchMovies(params)
       .then(response => {
         setCast(normalizeCast(response.cast));
-        if (!response.cast.length) {
+        if (response.cast.length === 0) {
           toast.error("We don't have any cast for this movie");
           setIsLoading(false);
         }
       })
       .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
+        if (error.message !== 'canceled') {
+          toast.error(error.message);
+          setIsLoading(false);
+        }
       });
   };
 
@@ -70,13 +73,16 @@ const useFetch = () => {
     fetchMovies(params)
       .then(response => {
         setReviews(normalizeReview(response.results));
-        if (!response.results.length) {
+        if (response.results.length === 0) {
           toast.error("We don't have any reviews for this movie");
           setContentIsLoading(false);
         }
       })
       .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
+        if (error.message !== 'canceled') {
+          toast.error(error.message);
+          setContentIsLoading(false);
+        }
       });
   };
 

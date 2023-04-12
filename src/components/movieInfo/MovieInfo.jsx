@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Loader from 'components/loader/Loader';
@@ -7,23 +7,18 @@ import {
   Container,
   PageLink,
   LinkList,
-  InfoContainer,
 } from './MovieInfo.styled';
 
-const MovieInfo = ({ movie, setIsLoading }) => {
+const MovieInfo = ({ movie, setIsLoading, isLoading }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
-
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/';
-  const currentLocation = { ...location };
-  const name = currentLocation?.state?.from?.pathname;
-  const search = currentLocation?.state?.from?.search;
+  const backLinkHref = useRef(location.state?.from ?? '/');
 
   const onComplete = () => setIsLoading(false);
 
   return (
-    <MainContainer>
-      <PageLink to={backLinkHref}>Go back</PageLink>
+    <MainContainer className={!isLoading && 'loaded'}>
+      <PageLink to={backLinkHref.current}>Go back</PageLink>
       <Container>
         <img
           src={poster}
@@ -45,30 +40,25 @@ const MovieInfo = ({ movie, setIsLoading }) => {
           <p>{genre}</p>
         </div>
       </Container>
-      <InfoContainer>
-        <h2>Additional information</h2>
-        <LinkList>
-          <li>
-            <PageLink to="cast" state={{ from: location.state.from }}>
-              Cast
-            </PageLink>
-          </li>
-          <li>
-            <PageLink to="reviews" state={{ from: { pathname: name, search } }}>
-              Reviews
-            </PageLink>
-          </li>
-        </LinkList>
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
-      </InfoContainer>
+      <h2>Additional information</h2>
+      <LinkList>
+        <li>
+          <PageLink to="cast">Cast</PageLink>
+        </li>
+        <li>
+          <PageLink to="reviews">Reviews</PageLink>
+        </li>
+      </LinkList>
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </MainContainer>
   );
 };
 
 MovieInfo.propTypes = {
   setIsLoading: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   movie: PropTypes.shape({
     date: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

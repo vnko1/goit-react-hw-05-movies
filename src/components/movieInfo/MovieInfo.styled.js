@@ -6,13 +6,19 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 30px;
-  padding-top: 20px;
+  gap: 12px;
+  padding-top: 10px;
+  opacity: 0;
+  transition: opacity 1500ms;
+
+  &.loaded {
+    opacity: 1;
+  }
 `;
 
 export const Container = styled.div`
   display: flex;
-  gap: 30px;
+  gap: 10px;
 `;
 export const LinkList = styled.ul`
   display: flex;
@@ -21,6 +27,7 @@ export const LinkList = styled.ul`
 
 export const PageLink = styled(Link)`
   width: 100px;
+  margin: 0;
   text-align: center;
   color: black;
   padding: 4px 8px;
@@ -33,8 +40,4 @@ export const PageLink = styled(Link)`
   &:focus {
     color: tomato;
   }
-`;
-
-export const InfoContainer = styled.div`
-  position: relative;
 `;

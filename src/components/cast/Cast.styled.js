@@ -5,10 +5,8 @@ export const CastList = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   opacity: 0;
-  transition: opacity 500ms;
-  position: absolute;
-  top: 100px;
-  left: 0;
+  transition: opacity 1500ms;
+
   &.loaded {
     opacity: 1;
   }
