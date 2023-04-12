@@ -10,39 +10,42 @@ import toast from 'react-hot-toast';
 
 const useFetch = () => {
   const [movies, setMovies] = useState([]);
-  const [showLoader, setShowLoader] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
 
   const fetchMoviesList = params => {
-    setShowLoader(true);
+    setIsLoading(true);
     fetchMovies(params)
       .then(response => {
-        if (!response.results.length) toast.error('Nothing found!');
+        if (!response.results.length) {
+          setIsLoading(false);
+          toast.error('Nothing found!');
+        }
         const movies = normalizeMovies(response.results);
 
         setMovies(movies);
       })
       .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
-      })
-      .finally(() => {
-        setShowLoader(false);
+        if (error.message !== 'canceled') {
+          setIsLoading(false);
+          toast.error(error.message);
+        }
       });
   };
 
   const fetchMovie = params => {
-    setShowLoader(true);
+    setIsLoading(true);
     fetchMovies(params)
       .then(response => {
         setMovie(normalizeMovie(response));
       })
       .catch(error => {
-        if (error.message !== 'canceled') toast.error(error.message);
-      })
-      .finally(() => {
-        setShowLoader(false);
+        if (error.message !== 'canceled') {
+          setIsLoading(false);
+          toast.error(error.message);
+        }
       });
   };
 
@@ -79,7 +82,8 @@ const useFetch = () => {
     fetchCast,
     reviews,
     fetcReviews,
-    showLoader,
+    isLoading,
+    setIsLoading,
   };
 };
 

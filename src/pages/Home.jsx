@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
 import MoviesList from 'components/movieList/MoviesList';
-import Loader from 'components/loader/Loader';
+
+import NetflixLoader from 'components/loader/NetflixLoader';
 import Message from 'components/toast/Toast';
 import useFetch from 'services/hooks';
 
 const Home = () => {
-  const { movies, showLoader, fetchMoviesList } = useFetch();
+  const { movies, isLoading, setIsLoading, fetchMoviesList } = useFetch();
   const { current: fetch } = useRef(fetchMoviesList);
 
   useEffect(() => {
@@ -18,8 +19,10 @@ const Home = () => {
 
   return (
     <>
-      {showLoader && <Loader />}
-      {!!movies.length && <MoviesList movies={movies} />}
+      {isLoading && <NetflixLoader />}
+      {!!movies.length && (
+        <MoviesList movies={movies} setIsLoading={setIsLoading} />
+      )}
       <Message />
     </>
   );

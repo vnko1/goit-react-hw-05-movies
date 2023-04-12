@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import MovieInfo from 'components/movieInfo/MovieInfo';
 import Message from 'components/toast/Toast';
-import Loader from 'components/loader/Loader';
+
+import ImageLoader from 'components/loader/ImageLoader';
 import useFetch from 'services/hooks';
 
 const MovieDetails = () => {
-  const { movie, fetchMovie, showLoader } = useFetch();
+  const { movie, fetchMovie, isLoading, setIsLoading } = useFetch();
   const { current: fetch } = useRef(fetchMovie);
   const { moviesId } = useParams();
 
@@ -20,8 +21,8 @@ const MovieDetails = () => {
 
   return (
     <>
-      {showLoader && <Loader />}
-      {movie && <MovieInfo movie={movie} />}
+      {isLoading && <ImageLoader />}
+      {movie && <MovieInfo movie={movie} setIsLoading={setIsLoading} />}
       <Message />
     </>
   );

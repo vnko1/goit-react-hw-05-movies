@@ -3,11 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import SearchForm from 'components/searchForm/SearchForm';
 import MoviesList from 'components/movieList/MoviesList';
 import Message from 'components/toast/Toast';
-import Loader from 'components/loader/Loader';
+import NetflixLoader from 'components/loader/NetflixLoader';
 import useFetch from 'services/hooks';
 
 const Movies = () => {
-  const { movies, fetchMoviesList, showLoader } = useFetch();
+  const { movies, fetchMoviesList, isLoading, setIsLoading } = useFetch();
   const { current: fetch } = useRef(fetchMoviesList);
   const [searchParams, setSearchParams] = useSearchParams();
   const { query } = useMemo(
@@ -31,8 +31,10 @@ const Movies = () => {
   return (
     <>
       <SearchForm setSearchParams={setSearchParams} />
-      {showLoader && <Loader />}
-      {!!movies.length && <MoviesList movies={movies} />}
+      {isLoading && <NetflixLoader />}
+      {!!movies.length && (
+        <MoviesList movies={movies} setIsLoading={setIsLoading} />
+      )}
       <Message />
     </>
   );
