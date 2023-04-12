@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Loader from 'components/loader/Loader';
 import {
   MainContainer,
   Container,
@@ -55,7 +57,9 @@ const MovieInfo = ({ movie, setIsLoading }) => {
             </PageLink>
           </li>
         </LinkList>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </InfoContainer>
     </MainContainer>
   );
