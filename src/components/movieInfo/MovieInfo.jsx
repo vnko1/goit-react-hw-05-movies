@@ -1,6 +1,11 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { MainContainer, Container, PageLink } from './MovieInfo.styled';
+import {
+  MainContainer,
+  Container,
+  PageLink,
+  InfoContainer,
+} from './MovieInfo.styled';
 
 const MovieInfo = ({ movie, setIsLoading }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
@@ -35,7 +40,7 @@ const MovieInfo = ({ movie, setIsLoading }) => {
           <p>{genre}</p>
         </div>
       </Container>
-      <div>
+      <InfoContainer>
         <h2>Additional information</h2>
         <ul>
           <li>
@@ -50,7 +55,7 @@ const MovieInfo = ({ movie, setIsLoading }) => {
           </li>
         </ul>
         <Outlet />
-      </div>
+      </InfoContainer>
     </MainContainer>
   );
 };

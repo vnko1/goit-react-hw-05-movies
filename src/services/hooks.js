@@ -50,6 +50,7 @@ const useFetch = () => {
   };
 
   const fetchCast = params => {
+    setIsLoading(true);
     fetchMovies(params)
       .then(response => {
         setCast(normalizeCast(response.cast));

@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import Message from 'components/toast/Toast';
+import { after } from 'underscore';
 import useFetch from 'services/hooks';
 import { CastList, CastItem } from './Cast.styled';
 
 const Cast = () => {
-  const { cast, fetchCast } = useFetch();
+  const { cast, fetchCast, isLoading, setIsLoading } = useFetch();
   const { moviesId } = useParams();
   const { current: fetch } = useRef(fetchCast);
 
@@ -17,10 +18,14 @@ const Cast = () => {
     };
   }, [fetch, moviesId]);
 
+  const onComplete = after(cast.length, () => {
+    setIsLoading(false);
+  });
+
   return (
     <>
       {!!cast.length && (
-        <CastList>
+        <CastList className={!isLoading && 'loaded'}>
           {cast.map(({ id, name, original_name, character, profile_path }) => (
             <CastItem key={id}>
               <img
@@ -31,6 +36,8 @@ const Cast = () => {
                 }
                 alt={name}
                 width="180"
+                onLoad={onComplete}
+                onError={onComplete}
               />
               <p>{original_name}</p>
               <p>Character: {character}</p>

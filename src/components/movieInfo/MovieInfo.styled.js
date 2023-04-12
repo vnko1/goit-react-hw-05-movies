@@ -30,3 +30,7 @@ export const PageLink = styled(Link)`
     color: tomato;
   }
 `;
+
+export const InfoContainer = styled.div`
+  position: relative;
+`;
