@@ -13,12 +13,6 @@ import {
 const MoviesList = ({ movies, setIsLoading }) => {
   const location = useLocation();
 
-  // const onLoad = index => {
-  //   if (index === movies.length - 1) {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const onComplete = after(movies.length, () => {
     setIsLoading(false);
   });

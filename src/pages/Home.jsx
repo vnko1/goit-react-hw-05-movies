@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import MoviesList from 'components/movieList/MoviesList';
-
 import NetflixLoader from 'components/loader/NetflixLoader';
 import Message from 'components/toast/Toast';
 import useFetch from 'services/hooks';
@@ -21,7 +20,11 @@ const Home = () => {
     <>
       {isLoading && <NetflixLoader />}
       {!!movies.length && (
-        <MoviesList movies={movies} setIsLoading={setIsLoading} />
+        <MoviesList
+          movies={movies}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
       )}
       <Message />
     </>
