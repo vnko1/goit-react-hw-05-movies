@@ -30,6 +30,8 @@ const MovieInfo = ({ movie, setIsLoading }) => {
           alt={tagline}
           onLoad={onComplete}
           onError={onComplete}
+          width="400px"
+          height="600px"
         />
         <div>
           <div>

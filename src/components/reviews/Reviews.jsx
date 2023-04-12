@@ -38,6 +38,7 @@ const Reviews = () => {
                 onLoad={onComplete}
                 onError={onComplete}
                 width="80px"
+                height="80px"
               />
               <h2>Author: {author}</h2>
               <p>{content}</p>
