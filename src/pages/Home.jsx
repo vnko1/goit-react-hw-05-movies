@@ -3,9 +3,16 @@ import MoviesList from 'components/movieList/MoviesList';
 import NetflixLoader from 'components/loader/NetflixLoader';
 import Message from 'components/toast/Toast';
 import useFetch from 'services/hooks';
+import { STATUS } from 'services';
 
 const Home = () => {
-  const { movies, isLoading, setIsLoading, fetchMoviesList } = useFetch();
+  const {
+    movies,
+    fetchMoviesList,
+    status,
+    contentIsLoading,
+    setContentIsLoading,
+  } = useFetch();
   const { current: fetch } = useRef(fetchMoviesList);
 
   useEffect(() => {
@@ -18,12 +25,12 @@ const Home = () => {
 
   return (
     <>
-      {isLoading && <NetflixLoader />}
-      {!!movies.length && (
+      {contentIsLoading && <NetflixLoader />}
+      {status === STATUS.resolved && !!movies.length && (
         <MoviesList
           movies={movies}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
+          contentIsLoading={contentIsLoading}
+          setContentIsLoading={setContentIsLoading}
         />
       )}
       <Message />

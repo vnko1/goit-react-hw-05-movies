@@ -4,11 +4,17 @@ import { after } from 'underscore';
 import Message from 'components/toast/Toast';
 import AuthorsList from 'components/loader/AuthorsList';
 import useFetch from 'services/hooks';
+import { STATUS } from 'services';
 import { ReviewsList } from './Reviews.styled';
 
 const Reviews = () => {
-  const { reviews, fetcReviews, contentIsLoading, setContentIsLoading } =
-    useFetch();
+  const {
+    reviews,
+    fetcReviews,
+    contentIsLoading,
+    setContentIsLoading,
+    status,
+  } = useFetch();
   const { moviesId } = useParams();
   const { current: fetch } = useRef(fetcReviews);
 
@@ -28,7 +34,7 @@ const Reviews = () => {
   return (
     <>
       {contentIsLoading && <AuthorsList />}
-      {!!reviews.length && (
+      {status === STATUS.resolved && !!reviews.length && (
         <ReviewsList className={!contentIsLoading && 'listLoaded'}>
           {reviews.map(({ author, content, id, avatar }) => (
             <li key={id}>

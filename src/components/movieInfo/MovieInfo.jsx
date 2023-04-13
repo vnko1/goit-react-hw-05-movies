@@ -9,15 +9,15 @@ import {
   LinkList,
 } from './MovieInfo.styled';
 
-const MovieInfo = ({ movie, setIsLoading, isLoading }) => {
+const MovieInfo = ({ movie, setContentIsLoading, contentIsLoading }) => {
   const { date, title, tagline, poster, popularity, genre, overview } = movie;
   const location = useLocation();
   const backLinkHref = useRef(location.state?.from ?? '/');
 
-  const onComplete = () => setIsLoading(false);
+  const onComplete = () => setContentIsLoading(false);
 
   return (
-    <MainContainer className={!isLoading && 'loaded'}>
+    <MainContainer className={!contentIsLoading && 'loaded'}>
       <PageLink to={backLinkHref.current}>Go back</PageLink>
       <Container>
         <img
@@ -57,8 +57,8 @@ const MovieInfo = ({ movie, setIsLoading, isLoading }) => {
 };
 
 MovieInfo.propTypes = {
-  setIsLoading: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  setContentIsLoading: PropTypes.func.isRequired,
+  contentIsLoading: PropTypes.bool.isRequired,
   movie: PropTypes.shape({
     date: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

@@ -5,9 +5,16 @@ import MoviesList from 'components/movieList/MoviesList';
 import Message from 'components/toast/Toast';
 import NetflixLoader from 'components/loader/NetflixLoader';
 import useFetch from 'services/hooks';
+import { STATUS } from 'services';
 
 const Movies = () => {
-  const { movies, fetchMoviesList, isLoading, setIsLoading } = useFetch();
+  const {
+    movies,
+    fetchMoviesList,
+    contentIsLoading,
+    setContentIsLoading,
+    status,
+  } = useFetch();
   const { current: fetch } = useRef(fetchMoviesList);
   const [searchParams, setSearchParams] = useSearchParams();
   const { query } = useMemo(
@@ -31,12 +38,12 @@ const Movies = () => {
   return (
     <>
       <SearchForm setSearchParams={setSearchParams} />
-      {isLoading && <NetflixLoader />}
-      {!!movies.length && (
+      {contentIsLoading && <NetflixLoader />}
+      {status === STATUS.resolved && !!movies.length && (
         <MoviesList
           movies={movies}
-          setIsLoading={setIsLoading}
-          isLoading={isLoading}
+          contentIsLoading={contentIsLoading}
+          setContentIsLoading={setContentIsLoading}
         />
       )}
       <Message />

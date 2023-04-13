@@ -6,82 +6,97 @@ import {
   normalizeCast,
   normalizeReview,
 } from './funcs';
+import { STATUS } from './constants';
 import toast from 'react-hot-toast';
 
 const useFetch = () => {
   const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [contentIsLoading, setContentIsLoading] = useState(false);
+  const [status, setStatus] = useState(STATUS.idle);
 
   const fetchMoviesList = params => {
-    setIsLoading(true);
+    setStatus(STATUS.pending);
+    setContentIsLoading(true);
     fetchMovies(params)
       .then(response => {
         if (response.results.length === 0) {
-          setIsLoading(false);
-          toast.error('Nothing found!');
+          setStatus(STATUS.resolved);
+          setContentIsLoading(false);
+          return toast.error('Nothing found!');
         }
         const movies = normalizeMovies(response.results);
-
         setMovies(movies);
+        setStatus(STATUS.resolved);
       })
       .catch(error => {
         if (error.message !== 'canceled') {
-          setIsLoading(false);
+          setStatus(STATUS.error);
+          setContentIsLoading(false);
           toast.error(error.message);
         }
       });
   };
 
   const fetchMovie = params => {
-    setIsLoading(true);
+    setStatus(STATUS.pending);
+    setContentIsLoading(true);
     fetchMovies(params)
       .then(response => {
         setMovie(normalizeMovie(response));
+        setStatus(STATUS.resolved);
       })
       .catch(error => {
         if (error.message !== 'canceled') {
-          setIsLoading(false);
+          setStatus(STATUS.error);
+          setContentIsLoading(false);
           toast.error(error.message);
         }
       });
   };
 
   const fetchCast = params => {
-    setIsLoading(true);
+    setStatus(STATUS.pending);
+    setContentIsLoading(true);
     fetchMovies(params)
       .then(response => {
-        setCast(normalizeCast(response.cast));
         if (response.cast.length === 0) {
-          toast.error("We don't have any cast for this movie");
-          setIsLoading(false);
+          setStatus(STATUS.resolved);
+          setContentIsLoading(false);
+          return toast.error("We don't have any cast for this movie");
         }
+        setCast(normalizeCast(response.cast));
+        setStatus(STATUS.resolved);
       })
       .catch(error => {
         if (error.message !== 'canceled') {
+          setStatus(STATUS.error);
+          setContentIsLoading(false);
           toast.error(error.message);
-          setIsLoading(false);
         }
       });
   };
 
   const fetcReviews = params => {
+    setStatus(STATUS.pending);
     setContentIsLoading(true);
     fetchMovies(params)
       .then(response => {
-        setReviews(normalizeReview(response.results));
         if (response.results.length === 0) {
-          toast.error("We don't have any reviews for this movie");
           setContentIsLoading(false);
+          setStatus(STATUS.resolved);
+          return toast.error("We don't have any reviews for this movie");
         }
+        setReviews(normalizeReview(response.results));
+        setStatus(STATUS.resolved);
       })
       .catch(error => {
         if (error.message !== 'canceled') {
-          toast.error(error.message);
           setContentIsLoading(false);
+          setStatus(STATUS.error);
+          toast.error(error.message);
         }
       });
   };
@@ -95,10 +110,10 @@ const useFetch = () => {
     fetchCast,
     reviews,
     fetcReviews,
-    isLoading,
-    setIsLoading,
     contentIsLoading,
     setContentIsLoading,
+    status,
+    setStatus,
   };
 };
 

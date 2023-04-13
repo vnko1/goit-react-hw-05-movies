@@ -5,3 +5,5 @@ export {
   normalizeCast,
   normalizeReview,
 } from './funcs';
+
+export { STATUS } from './constants';

@@ -10,16 +10,16 @@ import {
   Progressbar,
 } from './MovieList.styled';
 
-const MoviesList = ({ movies, setIsLoading, isLoading }) => {
+const MoviesList = ({ movies, setContentIsLoading, contentIsLoading }) => {
   const location = useLocation();
 
   const onComplete = after(movies.length, () => {
-    setIsLoading(false);
+    setContentIsLoading(false);
   });
 
   return (
-    <List className={!isLoading && 'loaded'}>
-      {movies.map(({ title, id, poster, averageVote }, index) => {
+    <List className={!contentIsLoading && 'loaded'}>
+      {movies.map(({ title, id, poster, averageVote }) => {
         return (
           <Item key={id}>
             <NavLink to={`/movies/${id}`} state={{ from: location }}>
@@ -46,8 +46,8 @@ const MoviesList = ({ movies, setIsLoading, isLoading }) => {
 };
 
 MoviesList.propTypes = {
-  setIsLoading: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  setContentIsLoading: PropTypes.func.isRequired,
+  contentIsLoading: PropTypes.bool.isRequired,
   movies: PropTypes.arrayOf(
     shape({
       id: PropTypes.number.isRequired,
