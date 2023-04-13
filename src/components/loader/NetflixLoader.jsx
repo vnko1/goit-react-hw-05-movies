@@ -6,7 +6,7 @@ const NetflixLoader = props => {
   const columns = column;
   const coverHeight = height;
   const coverWidth = width;
-  const padding = 5;
+  const padding = 10;
   const speed = 1;
 
   const coverHeightWithPadding = coverHeight + padding;
