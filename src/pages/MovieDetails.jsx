@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import MovieInfo from 'components/movieInfo/MovieInfo';
 import Message from 'components/toast/Toast';
-import ImageLoader from 'components/loader/ImageLoader';
+import Loader from 'components/loader/Loader';
 import useFetch from 'services/hooks';
 import { STATUS } from 'services';
 
@@ -22,7 +22,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      {contentIsLoading && <ImageLoader />}
+      {contentIsLoading && <Loader />}
       {status === STATUS.resolved && (
         <MovieInfo
           movie={movie}

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SpinnerContainer = styled.div`
+export const LoaderContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
