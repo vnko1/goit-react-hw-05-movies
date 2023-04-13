@@ -6,6 +6,7 @@ import NetflixLoader from 'components/loader/NetflixLoader';
 import useFetch from 'services/hooks';
 import { STATUS } from 'services';
 import { CastList, CastItem } from './Cast.styled';
+import { animateScroll as scroll } from 'react-scroll';
 
 const Cast = () => {
   const { cast, fetchCast, contentIsLoading, setContentIsLoading, status } =
@@ -16,6 +17,7 @@ const Cast = () => {
   useEffect(() => {
     const controller = new AbortController();
     fetch({ fetchParams: `movie/${moviesId}/credits`, controller });
+    scroll.scrollMore(500);
     return () => {
       controller.abort();
     };

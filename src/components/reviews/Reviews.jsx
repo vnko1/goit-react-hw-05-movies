@@ -6,6 +6,7 @@ import AuthorsList from 'components/loader/AuthorsList';
 import useFetch from 'services/hooks';
 import { STATUS } from 'services';
 import { ReviewsList } from './Reviews.styled';
+import { animateScroll as scroll } from 'react-scroll';
 
 const Reviews = () => {
   const {
@@ -21,7 +22,7 @@ const Reviews = () => {
   useEffect(() => {
     const controller = new AbortController();
     fetch({ fetchParams: `movie/${moviesId}/reviews`, controller });
-
+    scroll.scrollMore(500);
     return () => {
       controller.abort();
     };
