@@ -18,6 +18,7 @@ const Home = () => {
   useEffect(() => {
     const controller = new AbortController();
     fetch({ fetchParams: 'trending/movie/week', controller });
+
     return () => {
       controller.abort();
     };

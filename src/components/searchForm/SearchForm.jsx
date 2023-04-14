@@ -1,21 +1,28 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { MovieSearchForm, Input, Button } from './SearchForm.styled';
 
 const SearchForm = ({ setSearchParams }) => {
   const [querySearch, setQuerySearch] = useState('');
 
-  const onHandleSubmit = e => {
-    e.preventDefault();
-    if (!querySearch.trim()) return;
-    setSearchParams({ query: querySearch.trim().toLowerCase() });
-    setQuerySearch('');
-  };
+  const onHandleSubmit = useCallback(
+    e => {
+      e.preventDefault();
+      if (!querySearch.trim()) return;
+      setSearchParams({ query: querySearch.trim().toLowerCase() });
+      setQuerySearch('');
+    },
+    [querySearch, setSearchParams]
+  );
 
-  const onHandleChange = e => {
-    const { value } = e.currentTarget;
-    setQuerySearch(value);
-  };
+  const onHandleChange = useCallback(
+    e => {
+      const { value } = e.currentTarget;
+
+      setQuerySearch(value);
+    },
+    [setQuerySearch]
+  );
 
   return (
     <MovieSearchForm onSubmit={onHandleSubmit}>
